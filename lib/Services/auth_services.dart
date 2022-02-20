@@ -3,7 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gifty/Models/user.dart';
+import 'package:gifty/Providers/admin_data.dart';
 import 'package:gifty/Providers/modal_hud.dart';
+import 'package:gifty/Providers/user_data.dart';
+import 'package:gifty/Screens/Admin/admin_home_screen.dart';
 import 'package:gifty/Screens/User/user_home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,14 +29,14 @@ class Auth
        final instance = Provider.of<ModalHud>(context, listen: false);
         if(type=='User')
         {
-          // Provider.of<UserData>(context , listen: false).setUser(userModel);
+          Provider.of<UserData>(context , listen: false).setUser(userModel);
            Navigator.pushReplacementNamed(context, UserHomeScreen.id);
           instance.changeIsLoading(false);
         }
         else if (type=='Admin')
         {
-          // Provider.of<AdminData>(context , listen: false).setUser(userModel);
-          // Navigator.pushReplacementNamed(context, AdminHomeScreen.id);
+          Provider.of<AdminData>(context , listen: false).setUser(userModel);
+          Navigator.pushReplacementNamed(context, AdminHomeScreen.id);
           instance.changeIsLoading(false);
         }
       });
@@ -50,7 +53,7 @@ class Auth
         type: 'User',
       );
       await Adduserdata(userModel);
-      //Provider.of<UserData>(context , listen: false).setUser(usermodel);
+      Provider.of<UserData>(context , listen: false).setUser(userModel);
     });
 
   }
