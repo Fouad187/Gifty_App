@@ -14,7 +14,7 @@ class AdminAllGiftsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: fColor,
-        title: const Text('Gifts'),
+        title: const Text('Gifee'),
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
