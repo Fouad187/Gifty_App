@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'Providers/admin_data.dart';
 import 'Providers/modal_hud.dart';
+import 'Providers/navigation.dart';
 import 'Providers/user_data.dart';
 import 'Screens/Auth/login_screen.dart';
 import 'Screens/Auth/register_screen.dart';
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ModalHud>(create: (context) => ModalHud(),),
         ChangeNotifierProvider<AdminData>(create: (context) => AdminData(),),
         ChangeNotifierProvider<UserData>(create: (context) => UserData(),),
+        ChangeNotifierProvider<BottomNavigation>(create: (context) => BottomNavigation(),),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
