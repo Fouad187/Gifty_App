@@ -7,6 +7,7 @@ class ModalHud extends ChangeNotifier
   changeIsLoading(bool value)
   {
     isChange=value;
+    print('Value $isChange');
     notifyListeners();
   }
 }

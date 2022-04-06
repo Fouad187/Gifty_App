@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gifty/Models/gift.dart';
+import 'package:gifty/Screens/User/gift_description.dart';
 class GiftWidget extends StatelessWidget {
   Gift gift;
   GiftWidget({required this.gift});
@@ -7,7 +8,7 @@ class GiftWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        //Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDescription(product: product,),));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => GiftDescriptionScreen(gift: gift,),));
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 10),

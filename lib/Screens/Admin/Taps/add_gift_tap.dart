@@ -20,7 +20,7 @@ class AddGiftTap extends StatefulWidget {
 class _AddGiftTapState extends State<AddGiftTap> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  String? name ,description,price,companyName,type;
+  String? name ,description,price,type;
   AdminServices adminServices=AdminServices();
   File? _pickedimage;
   final ImagePicker _picker=ImagePicker();

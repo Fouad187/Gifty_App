@@ -35,7 +35,7 @@ class UserHomeScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Custome Gift',
+            label: 'Custom Gift',
           ),
         ],
       ),

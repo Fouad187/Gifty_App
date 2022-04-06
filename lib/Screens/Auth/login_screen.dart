@@ -85,6 +85,10 @@ class LoginScreen extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Wrong Email or Password')));
                           }
                         }
+                        else
+                          {
+                            instance.changeIsLoading(false);
+                          }
 
                       },
                     ),

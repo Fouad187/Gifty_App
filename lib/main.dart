@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gifty/Providers/cart.dart';
 import 'package:gifty/Screens/Admin/admin_all_gifts_screen.dart';
 import 'package:gifty/Screens/Admin/admin_home_screen.dart';
 import 'package:gifty/Screens/User/user_home_screen.dart';
@@ -11,6 +12,8 @@ import 'Providers/navigation.dart';
 import 'Providers/user_data.dart';
 import 'Screens/Auth/login_screen.dart';
 import 'Screens/Auth/register_screen.dart';
+import 'Screens/User/Taps/user_cart_tap.dart';
+import 'Screens/User/payment_screen.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AdminData>(create: (context) => AdminData(),),
         ChangeNotifierProvider<UserData>(create: (context) => UserData(),),
         ChangeNotifierProvider<BottomNavigation>(create: (context) => BottomNavigation(),),
+        ChangeNotifierProvider<Cart>(create: (context) => Cart(),),
 
       ],
       child: MaterialApp(
@@ -41,6 +45,8 @@ class MyApp extends StatelessWidget {
 
           /// User
           UserHomeScreen.id:(context)=>UserHomeScreen(),
+          CartTap.id:(context)=>CartTap(),
+          PaymentScreen.id:(context)=>PaymentScreen(),
 
           /// Admin
           AdminHomeScreen.id:(context)=>AdminHomeScreen(),
