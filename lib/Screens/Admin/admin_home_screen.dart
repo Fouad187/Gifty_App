@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gifty/Providers/admin_data.dart';
+import 'package:gifty/Screens/Admin/admin_all_custom_gifts.dart';
 import 'package:gifty/Screens/Admin/admin_all_gifts_screen.dart';
 import 'package:gifty/Screens/Auth/login_screen.dart';
 import 'package:gifty/Services/auth_services.dart';
@@ -7,7 +8,9 @@ import 'package:gifty/Util/constant.dart';
 import 'package:provider/provider.dart';
 
 import 'Taps/add_gift_tap.dart';
+import 'Taps/admin_custom_gift_tap.dart';
 import 'Taps/admin_home_tap.dart';
+import 'admin_all_orders.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   static String id='AdminHomeScreenID';
@@ -24,6 +27,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final taps=[
     AdminHomeTap(),
     AddGiftTap(),
+    AdminCustomGiftTap(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -72,7 +76,18 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 title: const Text('All Orders', style: TextStyle(color: Colors.black),),
                 leading: const Icon(Icons.reorder, color: fColor),
                 onTap: (){
-
+                  Provider.of<AdminData>(context,listen: false).getAllOrders().then((value) {
+                    Navigator.pushNamed(context,AdminAllOrdersScreen.id);
+                  });
+                },
+              ),
+              ListTile(
+                title: const Text('All Custom Gift', style: TextStyle(color: Colors.black),),
+                leading: const Icon(Icons.reorder, color: fColor),
+                onTap: (){
+                  Provider.of<AdminData>(context,listen: false).getAllCustomGifts().then((value) {
+                    Navigator.pushNamed(context,AdminAllCustomGiftsScreen.id);
+                  });
                 },
               ),
               ListTile(
@@ -105,6 +120,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
             label: 'Add Gift',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.reorder),
+            label: 'Custom Gifts',
           ),
         ],
       ),

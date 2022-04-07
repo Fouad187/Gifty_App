@@ -11,6 +11,8 @@ import 'Providers/admin_data.dart';
 import 'Providers/modal_hud.dart';
 import 'Providers/navigation.dart';
 import 'Providers/user_data.dart';
+import 'Screens/Admin/admin_all_custom_gifts.dart';
+import 'Screens/Admin/admin_all_orders.dart';
 import 'Screens/Auth/login_screen.dart';
 import 'Screens/Auth/register_screen.dart';
 import 'Screens/User/Taps/user_cart_tap.dart';
@@ -55,6 +57,8 @@ class MyApp extends StatelessWidget {
           /// Admin
           AdminHomeScreen.id:(context)=>AdminHomeScreen(),
           AdminAllGiftsScreen.id:(context)=>AdminAllGiftsScreen(),
+          AdminAllOrdersScreen.id:(context)=>AdminAllOrdersScreen(),
+          AdminAllCustomGiftsScreen.id:(context)=>AdminAllCustomGiftsScreen(),
         },
       ),
     );

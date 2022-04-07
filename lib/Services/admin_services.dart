@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:gifty/Models/custom_gift.dart';
 import 'package:gifty/Models/gift.dart';
+import 'package:gifty/Models/order.dart';
 import 'package:gifty/Models/user.dart';
 import 'package:gifty/Providers/admin_data.dart';
 import 'package:gifty/Util/constant.dart';
@@ -46,4 +48,54 @@ class AdminServices
     return gift;
   }
 
+  static Future<List<Order>> getOrders() async
+  {
+    List<Order> orders=[];
+    await FirebaseFirestore.instance.collection('Orders').where('status' , isEqualTo: 'In Review').get().then((value) {
+      for(int i=0 ; i<value.docs.length ; i++)
+      {
+        orders.add(Order.fromJson(value.docs[i].data()));
+        orders[i].docId=value.docs[i].id;
+      }
+    });
+    return orders;
+  }
+
+  static Future<List<Order>> getAllOrders() async
+  {
+    List<Order> orders=[];
+    await FirebaseFirestore.instance.collection('Orders').get().then((value) {
+      for(int i=0 ; i<value.docs.length ; i++)
+      {
+        orders.add(Order.fromJson(value.docs[i].data()));
+        orders[i].docId=value.docs[i].id;
+      }
+    });
+    return orders;
+  }
+
+  static Future<List<CustomGift>> getCustomGifts() async
+  {
+    List<CustomGift> gifts=[];
+    await FirebaseFirestore.instance.collection('Custom').where('status' , isEqualTo: 'In Review').get().then((value) {
+      for(int i=0 ; i<value.docs.length ; i++)
+      {
+        gifts.add(CustomGift.fromJson(value.docs[i].data()));
+        gifts[i].docId=value.docs[i].id;
+      }
+    });
+    return gifts;
+  }
+  static Future<List<CustomGift>> getAllCustomGifts() async
+  {
+    List<CustomGift> gifts=[];
+    await FirebaseFirestore.instance.collection('Custom').get().then((value) {
+      for(int i=0 ; i<value.docs.length ; i++)
+      {
+        gifts.add(CustomGift.fromJson(value.docs[i].data()));
+        gifts[i].docId=value.docs[i].id;
+      }
+    });
+    return gifts;
+  }
 }
