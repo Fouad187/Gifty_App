@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gifty/Models/gift.dart';
 import 'package:gifty/Providers/cart.dart';
+import 'package:gifty/Screens/User/Taps/user_cart_tap.dart';
 import 'package:gifty/Util/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +44,7 @@ class _GiftDescriptionState extends State<GiftDescriptionScreen> {
             padding: const EdgeInsets.only(right: 10 , top: 10),
             child: InkWell(
               onTap: (){
-                  //Navigator.pushNamed(context, CartTap.id);
+                Navigator.pushNamed(context, CartTap.id);
               },
               child: Stack(
                 children: [
