@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gifty/Models/user.dart';
 import 'package:gifty/Providers/user_data.dart';
 import 'package:gifty/Screens/Auth/login_screen.dart';
+import 'package:gifty/Screens/User/user_custom_gifts_screen.dart';
 import 'package:gifty/Services/auth_services.dart';
 import 'package:gifty/Util/constant.dart';
 import 'package:gifty/Widgets/gift_widget.dart';
 import 'package:gifty/Widgets/my_gift_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../orders_screen.dart';
 class UserHomeTap extends StatefulWidget {
 
   @override
@@ -67,18 +70,18 @@ class _UserHomeTapState extends State<UserHomeTap> {
                 title: const Text('My Orders', style: TextStyle(color: Colors.black),),
                 leading: Icon(Icons.reorder, color: fColor),
                 onTap: () async {
-                 /* await Provider.of<UserData>(context,listen: false).getOrders().then((value) {
+                  await Provider.of<UserData>(context,listen: false).getOrders().then((value) {
                     Navigator.pushNamed(context, UserOrderScreen.id);
                   });
-
-                  */
                 },
               ),
               ListTile(
                 title: const Text('My Custom Gifts', style: TextStyle(color: Colors.black),),
                 leading: Icon(Icons.reorder, color: fColor),
-                onTap: (){
-                  //Navigator.pushNamed(context, UserAllEggsScreen.id);
+                onTap: () async {
+                  await Provider.of<UserData>(context,listen: false).getCustomGifts().then((value) {
+                    Navigator.pushNamed(context, UserMyCustomGiftsScreen.id);
+                  });
                 },
               ),
 

@@ -14,3 +14,37 @@ String getRandomId()
   }
   return randomName;
 }
+List<String> cities=[
+  'Riyadh',
+  'Jeddah',
+  'Dammam',
+  'Medina',
+  'Cairo',
+  'Alex',
+  '6 October',
+  'Al Khobar',
+  'Najran',
+  'Abha',
+  'Dhahran',
+  'Mansoura',
+  'Giza',
+  'Tabuk',
+  'Al-Kharij',
+  'Taif',
+  'Other',
+];
+
+List<DropdownMenuItem> getitem(List<String> list)
+{
+  List<DropdownMenuItem> dropdownmenuitem=[];
+  for(int i=0 ; i<list.length; i++)
+  {
+    String type=list[i];
+    var newitem=DropdownMenuItem(
+      child: Text(type) ,
+      value: type,
+    );
+    dropdownmenuitem.add(newitem);
+  }
+  return dropdownmenuitem;
+}

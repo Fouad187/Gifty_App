@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gifty/Models/custom_gift.dart';
+import 'package:gifty/Models/gift.dart';
+import 'package:gifty/Providers/cart.dart';
 import 'package:gifty/Providers/modal_hud.dart';
+import 'package:gifty/Providers/user_data.dart';
 import 'package:gifty/Screens/User/payment_screen.dart';
 import 'package:gifty/Services/user_service.dart';
 import 'package:gifty/Util/constant.dart';
@@ -166,17 +170,16 @@ class _UserCustomeGiftTapState extends State<UserCustomeGiftTap> {
 
                             }
                             else {
-                              userService.addCustomGift(
-                                image: _pickedimage!,
-                                description: description!,
+                              Gift newGift=Gift(
                                 name: name!,
-                                price: price!,
+                                image: '',
+                                description: description!,
                                 type: type!,
-                                context: context,
-                              ).then((value) {
-                                Navigator.pushReplacementNamed(context, PaymentScreen.id);
-                                Provider.of<ModalHud>(context, listen: false).changeIsLoading(false);
-                              });
+                                price: price!,
+                                id: Provider.of<UserData>(context,listen: false).user!.id
+                              );
+                              Provider.of<Cart>(context,listen: false).setMyCustomGift(newGift);
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => PaymentScreen(fromCustom: true,customImage: _pickedimage,),));
                             }
                           } catch (e){
                             Provider.of<ModalHud>(context, listen: false).changeIsLoading(false);

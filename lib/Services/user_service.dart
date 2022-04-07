@@ -13,22 +13,22 @@ import 'package:provider/provider.dart';
 
 class UserService
 {
-  Future<void> addCustomGift({required String name, required String price,required String description ,required String type, required File image , context}) async
+  Future<void> addCustomGift({required Gift gifty, required File image ,required String address , required String city, context}) async
   {
     UserModel? user=Provider.of<UserData>(context , listen: false).user;
 
     final ref=FirebaseStorage.instance.ref().child('Custom_Gifts_Photo').child('${getRandomId()}.jpg');
     await ref.putFile(image);
     final url=await ref.getDownloadURL();
+    gifty.image=url;
     CustomGift gift=CustomGift(
-      name: name,
-      description: description,
-      image: url,
-      price: price,
-      type: type,
+      gift: gifty,
       userId: user!.id,
       userEmail: user.email,
       userName: user.name,
+      address: address,
+      city: city,
+      status: 'In Review'
     );
     await FirebaseFirestore.instance.collection('Custom').doc().set(gift.toJson());
   }
@@ -47,5 +47,17 @@ class UserService
       }
     });
     return orders;
+  }
+
+  static Future<List<CustomGift>> getMyCustomGifts({required String userId}) async
+  {
+    List<CustomGift> gifts=[];
+    await FirebaseFirestore.instance.collection('Custom').where('userId' , isEqualTo: userId).get().then((value){
+      for(int i=0 ; i<value.docs.length ; i++)
+      {
+        gifts.add(CustomGift.fromJson(value.docs[i].data()));
+      }
+    });
+    return gifts;
   }
 }

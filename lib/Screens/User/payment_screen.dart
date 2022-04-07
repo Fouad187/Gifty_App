@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gifty/Models/custom_gift.dart';
+import 'package:gifty/Models/gift.dart';
 import 'package:gifty/Models/order.dart';
 import 'package:gifty/Models/payment.dart';
 import 'package:gifty/Models/user.dart';
@@ -9,16 +13,32 @@ import 'package:gifty/Providers/navigation.dart';
 import 'package:gifty/Providers/user_data.dart';
 import 'package:gifty/Screens/User/user_home_screen.dart';
 import 'package:gifty/Services/user_service.dart';
+import 'package:gifty/Util/constant.dart';
 import 'package:gifty/Widgets/payment_card.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   static String id='PaymentScreenId';
+
+  bool fromCustom;
+  File? customImage;
+  PaymentScreen({this.fromCustom=false , this.customImage});
+
+  @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
   TextEditingController adressController=TextEditingController();
+  String selectedCity='Other';
+  UserService userService = UserService();
+
+
   @override
   Widget build(BuildContext context) {
     final Size size=MediaQuery.of(context).size;
@@ -213,7 +233,19 @@ class PaymentScreen extends StatelessWidget {
                                 )
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            const Text('City : ' , style: TextStyle(fontSize: 17 , fontWeight: FontWeight.bold),),
+                            const SizedBox(width: 10,),
+                            DropdownButton(items: getitem(cities), value:selectedCity, onChanged: (dynamic value){
+                              setState(() {
+                                selectedCity=value;
+                              });
+                            }),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -226,36 +258,74 @@ class PaymentScreen extends StatelessWidget {
                   if(_globalKey.currentState!.validate())
                   {
                     _globalKey.currentState!.save();
-                    try{
+                    if(selectedCity != 'Other')
+                      {
+                        try{
+                          if(widget.fromCustom)
+                            {
+                              Gift? customGift=Provider.of<Cart>(context,listen: false).myGift;
+                              if(customGift != null )
+                                {
+                                  userService.addCustomGift(
+                                      gifty: customGift,
+                                      image: widget.customImage!,
+                                      address: adressController.text,
+                                      city: selectedCity,
+                                      context: context,
+                                  ).then((value) {
+                                    instance.changeIsLoading(false);
+                                    Provider.of<BottomNavigation>(context,listen: false).navigate(index: 0);
+                                    Navigator.pushNamedAndRemoveUntil(context, UserHomeScreen.id, (route) => false);
+                                    Fluttertoast.showToast(msg: 'Your Custom Gift Added Successfully We will Call You soon ' , toastLength: Toast.LENGTH_LONG);
 
-                      UserModel? userInstance=Provider.of<UserData>(context,listen: false).user;
-                      final cart=Provider.of<Cart>(context,listen: false);
+                                  });
+                                }
+                              else
+                                {
+                                  instance.changeIsLoading(false);
+                                  Fluttertoast.showToast(msg: 'Something was wrong' , toastLength: Toast.LENGTH_LONG);
+                                }
+                            }
+                          else
+                            {
 
-                      Order order=Order(
-                          userName: userInstance!.name,
-                          totalPrice: cart.calculatePrice(),
-                          address: adressController.text,
-                          order: cart.gifts,
-                          userId: userInstance.id,
-                          status: 'In Review',
-                          city: 'Cairo',
-                          date: DateTime.now()
-                      );
-                      await UserService.makeOrder(order: order).then((value) {
-                        cart.clear();
+                              UserModel? userInstance=Provider.of<UserData>(context,listen: false).user;
+                              final cart=Provider.of<Cart>(context,listen: false);
+
+                              Order order=Order(
+                                  userName: userInstance!.name,
+                                  totalPrice: cart.calculatePrice(),
+                                  address: adressController.text,
+                                  order: cart.gifts,
+                                  userId: userInstance.id,
+                                  status: 'In Review',
+                                  city: selectedCity,
+                                  date: DateTime.now()
+                              );
+                              await UserService.makeOrder(order: order).then((value) {
+                                cart.clear();
+                                instance.changeIsLoading(false);
+                                Provider.of<BottomNavigation>(context,listen: false).navigate(index: 0);
+                                Navigator.pushNamedAndRemoveUntil(context, UserHomeScreen.id, (route) => false);
+                                Fluttertoast.showToast(msg: 'Your Orders Successfully We will Call You soon ' , toastLength: Toast.LENGTH_LONG);
+                              });
+                            }
+
+                      } catch(e){
                         instance.changeIsLoading(false);
-                        Provider.of<BottomNavigation>(context,listen: false).navigate(index: 0);
-                        Navigator.pushNamedAndRemoveUntil(context, UserHomeScreen.id, (route) => false);
-                        Fluttertoast.showToast(msg: 'Your Orders Successfully We will Call You soon ' , toastLength: Toast.LENGTH_LONG);
-                      });
+                        Fluttertoast.showToast(msg: 'Something was wrong' , toastLength: Toast.LENGTH_LONG);
+                      }
 
-                    }catch(e){
-                      instance.changeIsLoading(false);
-                      Fluttertoast.showToast(msg: 'Something was wrong' , toastLength: Toast.LENGTH_LONG);
-                    }
+
+                      }
+                    else
+                      {
+                        instance.changeIsLoading(false);
+                        Fluttertoast.showToast(msg: 'Please Select Your City' , toastLength: Toast.LENGTH_LONG);
+
+                      }
+
                   }
-                  instance.changeIsLoading(false);
-
                 },
                 child: Container(
                   width: size.width,
@@ -265,7 +335,8 @@ class PaymentScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text('CONFIRM PAYMENT' , style: TextStyle(color: Colors.white , fontSize: 22),),
-                      Text('Total ${Provider.of<Cart>(context).calculatePrice()} LE' , style: const TextStyle(color: Colors.white),),
+                      widget.fromCustom ? Text('Total Start Pay 200 LE' , style: const TextStyle(color: Colors.white),)
+                          :Text('Total ${Provider.of<Cart>(context).calculatePrice()} LE' , style: const TextStyle(color: Colors.white),),
                     ],
                   ),),
                 ),

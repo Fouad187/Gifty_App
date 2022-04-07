@@ -1,17 +1,18 @@
+import 'gift.dart';
+
 class CustomGift
 {
-  late String name;
-  late String type;
-  late String price;
-  late String description;
-  late String image;
+  late Gift gift;
   late String userId;
   late String userName;
   late String userEmail;
+  late String address;
+  late String city;
+  late String status;
   String? docId;
   double? totalPrice;
   int? quantity;
-  CustomGift({required this.name, required this.image,required this.description , required this.type , required this.price , required this.userId , required this.userEmail , required this.userName});
+  CustomGift({required this.gift ,required this.userId,  required this.userEmail , required this.userName , required this.city , required this.address , required this.status});
 
   CustomGift.fromJson(Map<String,dynamic> map)
   {
@@ -21,28 +22,26 @@ class CustomGift
     }
     else
     {
-      name=map['name'];
-      description=map['description'];
-      type=map['type'];
-      price=map['price'];
-      image = map['image'];
+      gift=Gift.fromJson(map['gift']);
       userId=map['userId'];
       userName=map['userName'];
       userEmail=map['userEmail'];
+      city=map['city'];
+      address=map['address'];
+      status=map['status'];
     }
   }
 
   toJson()
   {
     return {
-      'name' : name,
-      'description' : description,
-      'type' : type,
-      'price': price,
-      'image' : image,
+      'gift': gift.toJson(),
       'userId':userId,
       'userName':userName,
-      'userEmail':userEmail
+      'userEmail':userEmail,
+      'city':city,
+      'address':address,
+      'status':status,
     };
   }
 }
