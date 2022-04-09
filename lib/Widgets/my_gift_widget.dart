@@ -5,8 +5,7 @@ import 'package:gifty/Util/constant.dart';
 class MyGiftWidget extends StatelessWidget {
   Gift gift;
   int index;
-  String name;
-  MyGiftWidget({required this.gift , required this.index , required this.name});
+  MyGiftWidget({required this.gift , required this.index});
   @override
   Widget build(BuildContext context) {
     return Padding(

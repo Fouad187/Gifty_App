@@ -18,7 +18,7 @@ class AdminAllGiftsScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return MyGiftWidget(gift: Provider.of<AdminData>(context).gifts[index] , index: index,name: 'Medicine',);
+          return MyGiftWidget(gift: Provider.of<AdminData>(context).gifts[index] , index: index,);
         },
         itemCount: Provider.of<AdminData>(context).gifts.length,
       ),
