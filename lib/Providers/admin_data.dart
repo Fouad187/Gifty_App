@@ -24,6 +24,12 @@ class AdminData extends ChangeNotifier
       notifyListeners();
     });
   }
+  removeFromGifts({required int index})
+  {
+    gifts.removeAt(index);
+    notifyListeners();
+  }
+
   getAdminOrders()
   {
     AdminServices.getOrders().then((value) {

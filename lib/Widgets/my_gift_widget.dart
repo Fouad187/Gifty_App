@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gifty/Models/gift.dart';
+import 'package:gifty/Providers/admin_data.dart';
 import 'package:gifty/Util/constant.dart';
+import 'package:provider/provider.dart';
 
 class MyGiftWidget extends StatelessWidget {
   Gift gift;
@@ -44,7 +47,10 @@ class MyGiftWidget extends StatelessWidget {
               SizedBox(width: 10,),
               GestureDetector(
                   onTap: () async{
+                    await FirebaseFirestore.instance.collection('Gifts').doc(gift.docId).delete().then((value) {
+                      Provider.of<AdminData>(context,listen: false).removeFromGifts(index: index);
 
+                    });
 
                   },
                   child: Icon(Icons.delete , color: fColor,)),
