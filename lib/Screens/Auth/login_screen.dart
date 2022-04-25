@@ -54,7 +54,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 40,),
                   MyTextField(label: 'Email', picon: const Icon(Icons.email, color: fColor) , controller: emailController,
                     validate: (value){
-                      if(value.isEmpty)
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your email';
                       }
@@ -62,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 20,),
                   MyTextField(label: 'Password', picon: const Icon(Icons.lock, color: fColor), controller: passwordController ,security: true,
                     validate: (value){
-                      if(value.isEmpty)
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your password';
                       }
@@ -81,8 +81,10 @@ class LoginScreen extends StatelessWidget {
                             await auth.signIn(email: emailController.text , password: passwordController.text , context: context);
                           }
                           catch (e) {
+                            print(e);
+                            List<String> a = e.toString().split(']');
                             instance.changeIsLoading(false);
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Wrong Email or Password')));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${a[1].substring(1)}'),));
                           }
                         }
                         else

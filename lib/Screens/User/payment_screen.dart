@@ -304,6 +304,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               );
                               await UserService.makeOrder(order: order).then((value) {
                                 cart.clear();
+                                cart.removeCart();
                                 instance.changeIsLoading(false);
                                 Provider.of<BottomNavigation>(context,listen: false).navigate(index: 0);
                                 Navigator.pushNamedAndRemoveUntil(context, UserHomeScreen.id, (route) => false);

@@ -19,7 +19,7 @@ class RegistrationScreen extends StatelessWidget {
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
   TextEditingController confirmController=TextEditingController();
-
+  TextEditingController phoneController=TextEditingController();
  // Auth auth=Auth();
 
   @override
@@ -51,32 +51,40 @@ class RegistrationScreen extends StatelessWidget {
                   const Text('Sign up to start your trip and get full access' , style: TextStyle(color: Colors.grey , fontSize: 18),),
                   const SizedBox(height: 50,),
                   MyTextField(label: 'Name', picon: const Icon(Icons.person , color: fColor,), controller: nameController ,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (String? value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your name';
                       }
                     },),
                   const SizedBox(height: 20,),
                   MyTextField(label: 'Email', picon: const Icon(Icons.email, color: fColor), controller: emailController,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (String? value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your email';
                       }
                     },),
                   const SizedBox(height: 20,),
+                  MyTextField(label: 'Phone Number', picon: const Icon(Icons.phone, color: fColor), controller: phoneController,
+                    validate: (String? value){
+                      if(value!.isEmpty)
+                      {
+                        return 'Please enter your phone number';
+                      }
+                    },),
+                  const SizedBox(height: 20,),
                   MyTextField(label: 'Password', picon: const Icon(Icons.lock, color: fColor), security: true ,controller: passwordController ,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (String? value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your password';
                       }
                     },),
                   const SizedBox(height: 20,),
                   MyTextField(label: 'Confirm Password', picon: const Icon(Icons.lock, color: fColor),security: true, controller: confirmController,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (String? value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your confirm password';
                       }
@@ -88,25 +96,47 @@ class RegistrationScreen extends StatelessWidget {
                         instance.changeIsLoading(true);
                         if (_globalKey.currentState!.validate())
                         {
-                          try {
-                            await auth.createAccount(
-                              name: nameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              context: context,
-                            ).then((value) {
+                          if(passwordController.text!=confirmController.text)
+                            {
                               instance.changeIsLoading(false);
-                              Navigator.pushNamedAndRemoveUntil(context, UserHomeScreen.id , (route)=> false);
-                            });
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Password should be match'),));
+                            }
+                          else if (nameController.text.length < 3)
+                            {
+                              instance.changeIsLoading(false);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Name Should be at least 3 character'),));
+                            }
+                          else if (phoneController.text.length < 9)
+                            {
+                              instance.changeIsLoading(false);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Phone Number should be at lest 9 numbers'),));
+                            }
+                          else
+                            {
+                              try {
+                                await auth.createAccount(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  phone: phoneController.text,
+                                  context: context,
+                                ).then((value) {
+                                  instance.changeIsLoading(false);
+                                  Navigator.pushNamedAndRemoveUntil(context, UserHomeScreen.id , (route)=> false);
+                                });
 
 
-                          }
-                          catch (e) {
-                            print(e.toString());
-                            instance.changeIsLoading(false);
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email Must be Unique'),));
-                          }
+                              }
+                              catch (e) {
+                                print(e);
+                                List<String> a = e.toString().split(']');
+                                instance.changeIsLoading(false);
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${a[1].substring(1)}'),));
+                              }
+                            }
                         }
+                        instance.changeIsLoading(false);
+
                       },
                       text: 'Create')),
                   const SizedBox(height: 20,),

@@ -25,6 +25,7 @@ class Auth
           id: value.user!.uid,
           name: (value2)['name'],
           type: (value2)['type'],
+          phone: (value2)['phone'],
         );
        final instance = Provider.of<ModalHud>(context, listen: false);
         if(type=='User')
@@ -42,7 +43,7 @@ class Auth
       });
     });
   }
-  Future<void> createAccount({required String name, required String email ,required String password,context}) async
+  Future<void> createAccount({required String name, required String email ,required String password , required String phone,context}) async
   {
 
     await _auth.createUserWithEmailAndPassword(email: email, password: password).then((user) async {
@@ -51,6 +52,7 @@ class Auth
         name: name,
         email: email,
         type: 'User',
+        phone: phone,
       );
       await Adduserdata(userModel);
       Provider.of<UserData>(context , listen: false).setUser(userModel);

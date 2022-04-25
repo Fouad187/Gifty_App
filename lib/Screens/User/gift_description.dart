@@ -59,7 +59,7 @@ class _GiftDescriptionState extends State<GiftDescriptionScreen> {
                         borderRadius: BorderRadius.circular(8.5),
                         color: Colors.green,
                       ),
-                      child: Center(child: Text('${Provider.of<Cart>(context).gifts.length}' , style: const TextStyle(color: Colors.white),)),
+                      child: Center(child: Text('${Provider.of<Cart>(context).numberOfProducts}' , style: const TextStyle(color: Colors.white),)),
                     ),
                   ),
                 ],
@@ -217,6 +217,7 @@ class _GiftDescriptionState extends State<GiftDescriptionScreen> {
                         widget.gift.quantity=count;
                         widget.gift.totalPrice=count*(double.parse(widget.gift.price));
                         instance.addToCart(gift: widget.gift);
+                        instance.updateNumberOfProducts(widget.gift.quantity!);
                         Fluttertoast.showToast(msg: 'item added successfully');
                       },
                       shape: RoundedRectangleBorder(

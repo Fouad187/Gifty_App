@@ -6,6 +6,7 @@ class Cart extends ChangeNotifier {
 
   List<Gift> gifts=[];
   Gift? myGift;
+  int numberOfProducts=0;
 
   setMyCustomGift(Gift gift)
   {
@@ -21,6 +22,16 @@ class Cart extends ChangeNotifier {
   deleteFromCart({required Gift gift})
   {
     gifts.remove(gift);
+    notifyListeners();
+  }
+  updateNumberOfProducts(int number)
+  {
+    numberOfProducts=numberOfProducts+number;
+    notifyListeners();
+  }
+  removeCart()
+  {
+    numberOfProducts=0;
     notifyListeners();
   }
 

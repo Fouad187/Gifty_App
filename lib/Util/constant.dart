@@ -33,7 +33,15 @@ List<String> cities=[
   'Taif',
   'Other',
 ];
-
+List<String> categories=
+[
+  'Flowers',
+  'Chocolate',
+  'Home Decoration',
+  'Accessories',
+  'Perfume',
+  'Others',
+];
 List<DropdownMenuItem> getitem(List<String> list)
 {
   List<DropdownMenuItem> dropdownmenuitem=[];

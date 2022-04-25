@@ -15,7 +15,7 @@ class MyTextField extends StatelessWidget {
   TextInputType keyType;
   bool security = false;
   TextEditingController controller;
-  Function validate;
+  final String? Function(String?)? validate;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -36,9 +36,7 @@ class MyTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(30.0),
         ),
       ),
-      validator: (value){
-        validate(value);
-      },
+      validator: validate,
     );
   }
 }

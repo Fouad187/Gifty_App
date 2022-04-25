@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gifty/Providers/modal_hud.dart';
 import 'package:gifty/Services/admin_services.dart';
@@ -21,6 +22,7 @@ class _AddGiftTapState extends State<AddGiftTap> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String? name ,description,price,type;
+  String selectedType='Others';
   AdminServices adminServices=AdminServices();
   File? _pickedimage;
   final ImagePicker _picker=ImagePicker();
@@ -114,12 +116,12 @@ class _AddGiftTapState extends State<AddGiftTap> {
                       decoration: InputDecoration(
                         hintText: 'Gift Price',
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15) ,),
-
                       ),
-                      validator: (value){
+                        keyboardType: TextInputType.number,
+                        validator: (value){
                         if(value!.isEmpty)
                         {
-                          return  'Please Enter Medicine Price';
+                          return  'Please Enter Gift Price';
                         }
                       },
                       onChanged: (value)
@@ -130,24 +132,16 @@ class _AddGiftTapState extends State<AddGiftTap> {
                       },
                     ),
                     const SizedBox(height: 10,),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Gift Type',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15) ,),
-
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty)
-                        {
-                          return  'Please Enter Gift Type';
-                        }
-                      },
-                      onChanged: (value)
-                      {
-                        setState(() {
-                          type=value;
-                        });
-                      },
+                    Row(
+                      children: [
+                        const Text('Type (Category) : ' , style: TextStyle(fontSize: 17 , fontWeight: FontWeight.bold),),
+                        const SizedBox(width: 10,),
+                        DropdownButton(items: getitem(categories), value:selectedType, onChanged: (dynamic value){
+                          setState(() {
+                            selectedType=value;
+                          });
+                        }),
+                      ],
                     ),
                     const SizedBox(height: 15,),
 
@@ -173,7 +167,7 @@ class _AddGiftTapState extends State<AddGiftTap> {
                                 description: description!,
                                 name: name!,
                                 price: price!,
-                                type: type!,
+                                type: selectedType,
                                 context: context,
                               ).then((value) {
                                 Navigator.pushReplacementNamed(context, AdminHomeScreen.id);
