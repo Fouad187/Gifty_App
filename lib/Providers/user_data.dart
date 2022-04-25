@@ -50,5 +50,11 @@ class UserData extends ChangeNotifier
     });
   }
 
-
+  Future<void> getGiftByCategory({required String category}) async
+  {
+    UserService.getGiftsByCategory(category: category).then((value) {
+      gifts=value;
+      notifyListeners();
+    });
+  }
 }

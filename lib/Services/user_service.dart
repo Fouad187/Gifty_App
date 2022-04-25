@@ -60,4 +60,16 @@ class UserService
     });
     return gifts;
   }
+  static Future<List<Gift>> getGiftsByCategory({required String category}) async
+  {
+    List<Gift> gift=[];
+    await FirebaseFirestore.instance.collection('Gifts').where('type' , isEqualTo: category).get().then((value) {
+      for(int i = 0; i < value.docs.length; i++)
+      {
+        gift.add(Gift.fromJson(value.docs[i].data()));
+        gift[i].docId=value.docs[i].id;
+      }
+    });
+    return gift;
+  }
 }
