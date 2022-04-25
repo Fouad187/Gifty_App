@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gifty/Models/user.dart';
 import 'package:gifty/Providers/user_data.dart';
 import 'package:gifty/Screens/Auth/login_screen.dart';
+import 'package:gifty/Screens/User/update_ProfileScreen.dart';
 import 'package:gifty/Screens/User/user_custom_gifts_screen.dart';
 import 'package:gifty/Services/auth_services.dart';
 import 'package:gifty/Util/constant.dart';
@@ -61,10 +62,18 @@ class _UserHomeTapState extends State<UserHomeTap> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 10,),
                     Center(child: Text(user!.name, style:const TextStyle( fontSize: 20 , fontWeight: FontWeight.bold ,color: Colors.white),)),
                     Center(child: Text(user.email,style: const TextStyle( fontSize: 20 , fontWeight: FontWeight.bold ,color: Colors.white)),),
                   ],
                 ),
+              ),
+              ListTile(
+                title: const Text('Update Profile', style: TextStyle(color: Colors.black),),
+                leading: Icon(Icons.person, color: fColor),
+                onTap: () async {
+                 Navigator.pushNamed(context, UpdateProfileScreen.id);
+                },
               ),
               ListTile(
                 title: const Text('My Orders', style: TextStyle(color: Colors.black),),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gifty/Providers/cart.dart';
 import 'package:gifty/Screens/Admin/admin_all_gifts_screen.dart';
 import 'package:gifty/Screens/Admin/admin_home_screen.dart';
+import 'package:gifty/Screens/User/update_ProfileScreen.dart';
 import 'package:gifty/Screens/User/user_custom_gifts_screen.dart';
 import 'package:gifty/Screens/User/user_home_screen.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
           PaymentScreen.id:(context)=>PaymentScreen(),
           UserOrderScreen.id:(context)=>UserOrderScreen(),
           UserMyCustomGiftsScreen.id:(context)=> UserMyCustomGiftsScreen(),
+          UpdateProfileScreen.id:(context)=>UpdateProfileScreen(),
 
           /// Admin
           AdminHomeScreen.id:(context)=>AdminHomeScreen(),

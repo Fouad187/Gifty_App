@@ -18,6 +18,12 @@ class UserData extends ChangeNotifier
     this.user=user;
   }
 
+  updateUserDate({required String phone , required String name})
+  {
+    user!.phone=phone;
+    user!.name=name;
+    notifyListeners();
+  }
 
   getGifts()
   {
